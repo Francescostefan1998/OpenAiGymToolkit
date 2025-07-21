@@ -19,10 +19,10 @@ class Agent:
     
     def choose_action(self, state):
         if np.random.uniform() < self.epsilon:
-            action = np.random.choice(self.env.nA)
+            action = np.random.choice(self.env.action_space.n)
         else:
             q_vals = self.q_table[state]
-            perm_actions = np.random.permutation(self.env.nA)
+            perm_actions = np.random.permutation(self.env.action_space.n)
             q_vals = [q_vals[a] for a in perm_actions]
             perm_q_argmax = np.argmax(q_vals)
             action = perm_actions[perm_q_argmax]

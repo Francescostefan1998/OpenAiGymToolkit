@@ -30,4 +30,17 @@ class Agent:
  
     def _learn(self, trasition):
         s, a, r, next_s, done = trasition
-        q_val = self.q_table[s]
+        q_val = self.q_table[s][a]
+        if done:
+            q_target = r
+        else:
+            q_target = r + self.gamma * np.max(self.q_table[next_s])
+
+        self.q_table[s][a] += self.lr * (q_target - q_val)
+        self._adjust_epsilon()
+
+    def _adjust_epsilon(self):
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
+
+
